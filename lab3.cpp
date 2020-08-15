@@ -379,4 +379,3 @@ int lab3_init() {
     CloseHandle(sem_n);
     return 0;
 }
-

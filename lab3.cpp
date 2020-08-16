@@ -364,7 +364,6 @@ int initThread(){
 }
 int lab3_init() {
 
-    DWORD ThreadID;	HANDLE aThread[11];
     initMutex();
 	initSem();
     initThread();

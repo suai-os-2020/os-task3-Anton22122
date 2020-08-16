@@ -14,9 +14,12 @@ const char *lab3_sequential_threads() {
     return "bcdg";
 }
 
+DWORD ThreadID;
+HANDLE aThread[11];
 HANDLE lock;
 HANDLE sem_a, sem_b, sem_c, sem_d, sem_e, sem_f, sem_g,
     sem_i, sem_k, sem_m, sem_n, sem_bSync, sem_cSync, sem_dSync, sem_gSync;
+
 
 DWORD WINAPI thread_a(LPVOID lpParam) {
     UNREFERENCED_PARAMETER(lpParam);
@@ -256,14 +259,15 @@ DWORD WINAPI thread_n(LPVOID lpParam) {
     }
     return TRUE;
 }
-void initMutex(){
+int initMutex(){
 	lock = CreateMutex(NULL, FALSE, NULL);
     if (lock == NULL) {
         std::cerr << "CreateMutex error: " << GetLastError() << '\n';
         return 1;
     }
+    return 0;
 }
-void initSem(){
+int initSem(){
 	sem_a = CreateSemaphore(NULL, 0, 11, NULL);
     if (sem_a == NULL){
         std::cerr << "CreateSemaphore error: " << GetLastError() << '\n'; return 1;}
@@ -309,8 +313,9 @@ void initSem(){
     sem_gSync = CreateSemaphore(NULL, 0, 11, NULL);
     if (sem_gSync == NULL){
         std::cerr << "CreateSemaphore error: " << GetLastError() << '\n'; return 1;}
+    return 0;
 }
-void initThread(){
+int initThread(){
 	aThread[0] = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)thread_a, NULL, 0, &ThreadID);
     if (aThread[0] == NULL) {
         std::cerr << "CreateThread error: " << GetLastError() << '\n'; return 1;
@@ -355,6 +360,7 @@ void initThread(){
     if (aThread[10] == NULL) {
         std::cerr << "CreateThread error: " << GetLastError() << '\n'; return 1;
     }
+    return 0;
 }
 int lab3_init() {
 
